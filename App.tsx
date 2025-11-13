@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LINK_DATA } from './constants';
 import { LinkButton } from './components/LinkButton';
+import { SingleLinkButton } from './components/SingleLinkButton';
 import { EditModal } from './components/EditModal';
 import { LinkItem } from './types';
 
@@ -39,10 +40,8 @@ function App() {
           </p>
         </header>
         
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {links.map(link => (
-            <LinkButton key={link.id} link={link} onEdit={handleEdit} />
-          ))}
+        <div className="mb-8">
+          <SingleLinkButton links={links} onEdit={handleEdit} />
         </div>
       </main>
 
