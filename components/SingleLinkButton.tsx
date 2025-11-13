@@ -57,7 +57,7 @@ export const SingleLinkButton: React.FC<Props> = ({ links, onEdit }) => {
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v4a1 1 0 002 0V7zm-1 8a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" clipRule="evenodd" />
             </svg>
             <h3 className="text-2xl font-bold text-slate-400">時間外です</h3>
-            <p className="text-sm text-slate-500 mt-2">現在は指定された時間帯ではありません</p>
+            <p className="text-sm text-slate-500 mt-2">現在出席可能な授業はありません</p>
           </div>
         </div>
         <button
