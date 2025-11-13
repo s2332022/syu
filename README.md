@@ -1,19 +1,12 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# 出席 (syu)
 
-# Run and deploy your AI Studio app
+簡単な説明: 各教室の出席確認ページへすばやくアクセスするためのポータルです。
 
-This contains everything you need to run your app locally.
+## ローカルで実行
 
-View your app in AI Studio: https://ai.studio/apps/drive/1rYcey_ALokQBLSZndQ8LmTCF6b4XGB7B
+必要なもの: Node.js
 
-## Run Locally
-
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
+1. 依存関係をインストール:
    `npm install`
-2. Run the app locally:
+2. 開発サーバーを起動:
    `npm run dev`
