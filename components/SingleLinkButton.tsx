@@ -23,8 +23,8 @@ function getActiveIndex(date: Date): number {
   // Thu 11-12 -> sixth (index 5)
   if (day === 4 && hour >= 11 && hour < 12) return 5;
 
-  // Default: use the first link if available
-  return 0;
+  // Outside scheduled times -> return -1 to indicate '時間外'
+  return -1;
 }
 
 export const SingleLinkButton: React.FC<Props> = ({ links, onEdit }) => {
@@ -37,28 +37,58 @@ export const SingleLinkButton: React.FC<Props> = ({ links, onEdit }) => {
   }, []);
 
   const activeIndex = useMemo(() => getActiveIndex(now), [now]);
-  const link = links[activeIndex] ?? links[0];
+
+  const isActive = activeIndex >= 0 && activeIndex < links.length;
+  const activeLink = isActive ? links[activeIndex] : null;
 
   const handleEditClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (link) onEdit(link);
+    if (activeLink) onEdit(activeLink);
   };
 
-  if (!link) return null;
+  // When outside scheduled times, show a disabled card with "時間外です"
+  if (!isActive) {
+    return (
+      <div className="relative max-w-md mx-auto">
+        <div className="group block bg-slate-900 p-6 rounded-lg border border-slate-800 text-center opacity-60 cursor-not-allowed">
+          <div className="flex flex-col items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mb-4 text-slate-500" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v4a1 1 0 002 0V7zm-1 8a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" clipRule="evenodd" />
+            </svg>
+            <h3 className="text-2xl font-bold text-slate-400">時間外です</h3>
+            <p className="text-sm text-slate-500 mt-2">現在は指定された時間帯ではありません</p>
+          </div>
+        </div>
+        <button
+          disabled
+          className="absolute top-2 right-2 p-1.5 rounded-full text-slate-500 bg-transparent cursor-not-allowed"
+          aria-label="編集不可"
+          title="時間外のため編集できません"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+            <path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" />
+          </svg>
+        </button>
+      </div>
+    );
+  }
+
+  if (!activeLink) return null;
 
   return (
     <div className="relative max-w-md mx-auto">
       <a
-        href={link.url}
+        href={activeLink.url}
         target="_blank"
         rel="noopener noreferrer"
         className="group block bg-slate-900 p-6 rounded-lg border border-slate-800 hover:border-sky-500 hover:bg-slate-800 transition-all duration-300 transform hover:-translate-y-1"
       >
         <div className="flex flex-col items-center text-center">
-          {link.icon}
+          {activeLink.icon}
           <h3 className="text-2xl font-bold text-slate-200 group-hover:text-sky-400 transition-colors">
-            {link.classroom} - {link.subject}
+            {activeLink.classroom} - {activeLink.subject}
           </h3>
           <p className="text-sm text-slate-400 mt-2">現在の時間に応じたリンクが開きます</p>
         </div>
