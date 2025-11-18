@@ -10,18 +10,30 @@ interface Props {
 function getActiveIndex(date: Date): number {
   const day = date.getDay(); // 0 Sun,1 Mon,2 Tue,3 Wed,4 Thu
   const hour = date.getHours();
+  const minute = date.getMinutes();
+  const minutes = hour * 60 + minute;
+
+  // Helper to test a range with 30 minutes early activation.
+  // startHour/endHour are integer hours (e.g. 10, 11) representing the scheduled range start/end.
+  const inRange = (d: number, startHour: number, endHour: number) => {
+    if (day !== d) return false;
+    const startMin = startHour * 60 - 30; // start 30 minutes earlier
+    const endMin = endHour * 60; // end at scheduled end
+    return minutes >= startMin && minutes < endMin;
+  };
+
   // Tue 10-11 -> first (index 0)
-  if (day === 2 && hour >= 10 && hour < 11) return 0;
+  if (inRange(2, 10, 11)) return 0;
   // Tue 13-14 -> second (index 1)
-  if (day === 2 && hour >= 13 && hour < 14) return 1;
+  if (inRange(2, 13, 14)) return 1;
   // Wed 9-10 -> third (index 2)
-  if (day === 3 && hour >= 9 && hour < 10) return 2;
+  if (inRange(3, 9, 10)) return 2;
   // Wed 11-12 -> fourth (index 3)
-  if (day === 3 && hour >= 11 && hour < 12) return 3;
+  if (inRange(3, 11, 12)) return 3;
   // Wed 15-16 -> fifth (index 4)
-  if (day === 3 && hour >= 15 && hour < 16) return 4;
+  if (inRange(3, 15, 16)) return 4;
   // Thu 11-12 -> sixth (index 5)
-  if (day === 4 && hour >= 11 && hour < 12) return 5;
+  if (inRange(4, 11, 12)) return 5;
 
   // Outside scheduled times -> return -1 to indicate '時間外'
   return -1;
