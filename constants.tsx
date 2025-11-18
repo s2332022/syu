@@ -21,8 +21,8 @@ const ClassroomIcon = (
 const BASE_URL = 'https://attendance.is.it-chiba.ac.jp/attendance/class_room/';
 
 const initialLinks: Omit<LinkItem, 'url' | 'icon'>[] = [
-  { id: '1', classroom: '7007教室', subject: '音響' },
-  { id: '2', classroom: '7007教室', subject: 'オーディオ' },
+  { id: '1', classroom: '7001教室', subject: '音響' },
+  { id: '2', classroom: '7001教室', subject: 'オーディオ' },
   { id: '3', classroom: '7302教室', subject: 'ネットワーク' },
   { id: '4', classroom: '7303教室', subject: 'コンピュ' },
   { id: '5', classroom: '7302教室', subject: '情報倫理' },
