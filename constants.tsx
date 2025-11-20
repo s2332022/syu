@@ -26,7 +26,7 @@ const initialLinks: Omit<LinkItem, 'url' | 'icon'>[] = [
   { id: '3', classroom: '7302教室', subject: 'ネットワーク' },
   { id: '4', classroom: '7303教室', subject: 'コンピュ' },
   { id: '5', classroom: '7302教室', subject: '情報倫理' },
-  { id: '6', classroom: '6105教室', subject: '経済' },
+  { id: '6', classroom: '615教室', subject: '経済' },
   { id: '7', classroom: '000', subject: '00' },
   { id: '8', classroom: '000', subject: '00' },
 ];
