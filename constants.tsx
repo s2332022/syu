@@ -32,8 +32,18 @@ const initialLinks: Omit<LinkItem, 'url' | 'icon'>[] = [
 ];
 
 export const LINK_DATA: LinkItem[] = initialLinks.map((item) => {
-  // 「334教室」から数字の「334」を抽出する
-  const roomNumber = item.classroom.match(/\d+/)?.[0] || '';
+  // 教室名から教室番号を抽出する（まず3桁の連続した数字を探す。なければ最後の数字列、なければ最初の数字列）
+  const extractRoomNumber = (s: string) => {
+    // 優先: 3桁の連続した数字（例: 615）
+    const three = s.match(/\d{3}/);
+    if (three) return three[0];
+    // 次に最後の数字列
+    const all = s.match(/\d+/g);
+    if (all && all.length > 0) return all[all.length - 1];
+    // 最後の手段で最初の数字列
+    return '';
+  };
+  const roomNumber = extractRoomNumber(item.classroom || '');
   return {
     ...item,
     url: `${BASE_URL}${roomNumber}`,

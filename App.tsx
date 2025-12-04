@@ -20,10 +20,18 @@ function App() {
   };
 
   const handleSaveLink = (updatedLink: LinkItem) => {
-    // 教室名から教室番号を抽出し、URLを再生成する
-    const roomNumber = updatedLink.classroom.match(/\d+/)?.[0] || '';
+    // 教室名から教室番号を抽出（優先: 3桁）してURLを再生成する
+    const extractRoomNumber = (s: string) => {
+      const three = s.match(/\d{3}/);
+      if (three) return three[0];
+      const all = s.match(/\d+/g);
+      if (all && all.length > 0) return all[all.length - 1];
+      return '';
+    };
+
+    const roomNumber = extractRoomNumber(updatedLink.classroom || '');
     const finalLink = { ...updatedLink, url: `${BASE_URL}${roomNumber}` };
-    
+
     setLinks(links.map(l => l.id === finalLink.id ? finalLink : l));
     setEditingLink(null);
   };
